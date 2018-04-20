@@ -2,6 +2,8 @@
 Leitura de arquivos csv separado por , dados cidades ibge como testes
 
 gerar jar utilizando Maven 
+
+para executar
 java -jar Involves-0.0.1.jar
 
 ao ser solicitado descrever o path do arquivo
