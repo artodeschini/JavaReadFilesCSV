@@ -1,9 +1,17 @@
-# teste-java-2017-07-Artur-Todeschini
-Leitura de arquivos csv separado por , dados cidades ibge como testes
+# Leitura de arquivos CSV com dados do IBGE
 
-gerar jar utilizando Maven 
+## definições
 
-para executar
+A Leitura de arquivos csv será separado por , dados cidades ibge como testes
+
+## criar versao
+
+```bash
+mvn clean install
+```
+
+## executar
+
+```bash
 java -jar Involves-0.0.1.jar
-
-ao ser solicitado descrever o path do arquivo
+```
