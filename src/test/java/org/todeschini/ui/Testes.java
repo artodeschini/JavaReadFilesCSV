@@ -2,10 +2,7 @@ package org.todeschini.ui;
 
 
 import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
-import org.todeschini.binarios.OperacoesImplDAO;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.todeschini.binarios.FileService;
 
 @Disabled
 public class Testes {
@@ -15,7 +12,7 @@ public class Testes {
 	
 //	@Test
 	public void testCountDistinctUf() {
-		int numero = OperacoesImplDAO.getInstace("/Users/Artur/cidades.csv").countDistinct("uf");
+//		long numero = FileService.getInstace("/Users/Artur/cidades.csv").countDistinct("uf");
 		//assertSame("O numero de ocorrencias", numero, 27);
 	}
 	
@@ -28,7 +25,7 @@ public class Testes {
 	
 //	@Test
 	public void testeFilter() {
-		OperacoesImplDAO.getInstace("/Users/Artur/cidades.csv").filter("name", "Florianópolis");
+//		FileService.getInstace("/Users/Artur/cidades.csv").filter("name", "Florianópolis");
 		
 	}
 

@@ -5,56 +5,33 @@ import java.net.URISyntaxException;
 import java.util.*;
 import java.util.stream.Stream;
 
-import org.todeschini.binarios.OperacoesImplDAO;
-import org.todeschini.binarios.OperacoesDAO;
+import org.todeschini.binarios.DirectoryUtils;
+import org.todeschini.binarios.FileService;
+import org.todeschini.binarios.IFileService;
 
 public class Menu {
 
-    private static String SELECIONE_ARQUIVO = "Selecione o caminho do arquivo desejado";
-    private static String HELP_MSG = "Use comand count *, count distinct <propriedade>, filter <propriedade> <valor>, exit ";
-    private static String HELLO = "Bem vindo ao sistema para ver opcoes digite -help";
-    private static String VERSION = "Operacoes com arquivos version 0.1";
-    private static String COMMAND_NOT_FOUND = "Comando nao encontrado";
-    private static String EXIT = "exit";
+    private static final String SELECIONE_ARQUIVO = "Selecione o caminho do arquivo desejado";
+    private static final String HELP_MSG = "Use comand count *, count distinct <propriedade>, filter <propriedade> <valor>, exit ";
+    private static final String HELLO = "Bem vindo ao sistema para ver opcoes digite -help";
+    private static final String VERSION = "Operacoes com arquivos version 0.1";
+    private static final String COMMAND_NOT_FOUND = "Comando nao encontrado";
+    private static final String EXIT = "exit";
 
     private void showMessage(Object msg) {
         System.out.println(msg);
-    }
-
-    private Optional<String> selecionaArquivo(String pathApp) {
-        // Creates an array in which we will store the names of files and directories
-//		String[] pathnames;
-
-        // Creates a new File instance by converting the given pathname string
-        // into an abstract pathname
-        File dirApp = new File(pathApp);
-
-        // Populates the array with names of files and directories
-//		pathnames = f.list();
-
-        // For each pathname in the pathnames array
-//		for (String pathname : dirApp.list()) {
-//			// Print the names of files and directories
-////
-//			if ( pathname.toLowerCase().contains(".csv" ) ) {
-//				p
-//			}
-//		}
-        //list.stream().map(MyObject::getName).filter(name::equals).findFirst().isPresent();
-        return Arrays.stream(dirApp.list()).filter(f -> f.toLowerCase().contains(".csv")).findFirst();
-
-        //csv.isPresent()
     }
 
     public void execute() {
         showMessage(HELLO);
         Scanner scanner = new Scanner(System.in);
 
-        Optional<String> pathCsv;
+        Optional<String> pathCsvFile;
 
-        OperacoesDAO operacoes = null;
+        IFileService operacoes = null;
 
         try {
+            //String jarPath = DirectoryUtils.getPathApp(this.getClass());
             String jarPath = getClass()
                     .getProtectionDomain()
                     .getCodeSource()
@@ -62,22 +39,17 @@ public class Menu {
                     .toURI()
                     .getPath();
 
-//            System.out.println(jarPath);
+            jarPath = jarPath.contains("target") ? jarPath.split("target")[0] : jarPath;
 
-            if (jarPath.contains("target")) {
-                System.out.printf(jarPath.split("target")[0]);
-                pathCsv = selecionaArquivo(jarPath.split("target")[0]);
-            } else {
-                pathCsv = selecionaArquivo(jarPath);
-            }
+            pathCsvFile = DirectoryUtils.selecionaArquivo(jarPath);
 
         } catch (URISyntaxException ex) {
             throw new RuntimeException(ex);
         }
 
-        if (pathCsv.isPresent()) {
+        if (pathCsvFile.isPresent()) {
 
-            operacoes = OperacoesImplDAO.getInstace(pathCsv.get());
+            operacoes = FileService.getInstace(pathCsvFile.get());
             showMessage(HELP_MSG);
 
             String action = scanner.nextLine();
@@ -143,14 +115,14 @@ public class Menu {
             scanner.close();
 
         } else {
-            System.out.printf("Deu m");
+            System.out.print("Deu m");
         }
     }
 
     public String buildParametroValue(String comando, String valor) {
 
         if (comando != null && !comando.equals("") && valor != null && !valor.equals("")) {
-            return comando.substring((comando.indexOf(valor)), comando.length());
+            return comando.substring((comando.indexOf(valor)));
         }
 
         return "";

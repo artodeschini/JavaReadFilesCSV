@@ -2,12 +2,11 @@ package org.todeschini.binarios;
 
 import java.util.stream.Stream;
 
-public interface OperacoesDAO {
+public interface IFileService {
 	
-	int count();
+	long count();
 	
-	int countDistinct(String propriedade);
+	long countDistinct(String propriedade);
 	
 	Stream<String> filter(String propriedade, String valor);
-
 }

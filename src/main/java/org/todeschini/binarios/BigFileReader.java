@@ -18,16 +18,16 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class BigFileReader {
-    private int threadSize;
-    private String charset;
-    private int bufferSize;
-    private IHandle handle;
-    private ExecutorService  executor;
-    private long fileLength;
+    private final int threadSize;
+    private final String charset;
+    private final int bufferSize;
+    private final IHandle handle;
+    private final ExecutorService  executor;
+    private final long fileLength;
     private RandomAccessFile access;
-    private Set<StartEndPair> startEndPairs;
+    private final Set<StartEndPair> startEndPairs;
     private CyclicBarrier cyclicBarrier;
-    private AtomicLong counter = new AtomicLong(0);
+    private final AtomicLong counter = new AtomicLong(0);
 
     private BigFileReader(File file,IHandle handle,String charset,int bufferSize,int threadSize){
         this.fileLength = file.length();
@@ -150,16 +150,14 @@ public class BigFileReader {
             StartEndPair other = (StartEndPair) obj;
             if (end != other.end)
                 return false;
-            if (start != other.start)
-                return false;
-            return true;
+            return start == other.start;
         }
 
     }
     private class SliceReaderTask implements Runnable{
-        private long start;
-        private long sliceSize;
-        private byte[] readBuff;
+        private final long start;
+        private final long sliceSize;
+        private final byte[] readBuff;
 
         /**
          * @param start 	read position (include)
@@ -209,8 +207,8 @@ public class BigFileReader {
         private int threadSize=1;
         private String charset=null;
         private int bufferSize=1024*1024;
-        private IHandle handle;
-        private File file;
+        private final IHandle handle;
+        private final File file;
         public Builder(String file,IHandle handle){
             this.file = new File(file);
             if(!this.file.exists())
